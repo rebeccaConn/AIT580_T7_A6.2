@@ -1,0 +1,78 @@
+
+AIT580 Assignment 6.2 - Hypothesis Tests in R¶
+---------------------------------------------------------------------------------------
+Purpose for GMU-AIT students to learn Hypothesis Testing with R for Data Science
+The templated created by Dr. Liao (6/5/2020)
+---------------------------------------------------------------------------------------
+Student ID:
+Student's Full Name: John Gullette, Karyna Todd, Rebeca Conn
+Submission Date: 09/12/2021
+---------------------------------------------------------------------------------------
+Remove all objects from the current workspace (R memory)
+In [1]:
+rm(list=ls())
+Load CSV file and create the dataframe
+In [2]:
+data <- read.csv('EmployeeAttrition.csv')
+Write R code to perform Hypothesis Testing to choose between Null and Alternative Hypothesis and provide justification to your decision with explanation. Use 95% Confidence Interval for all the answers:
+¶
+In [10]:
+t.test(data$HourlyRate, mu = 65)
+	One Sample t-test
+
+data:  data$HourlyRate
+t = 1.6807, df = 1469, p-value = 0.09304
+alternative hypothesis: true mean is not equal to 65
+95 percent confidence interval:
+ 64.85106 66.93125
+sample estimates:
+mean of x 
+ 65.89116 
+The P value > .05, so we accept the hypothesis that the average hourly rate is equal to 65.
+
+2. If the YearsAtCompany of Single is less than Married.
+In [11]:
+with(data, t.test(YearsAtCompany[MaritalStatus == 'Single'], YearsAtCompany[MaritalStatus == 'Married']))
+	Welch Two Sample t-test
+
+data:  YearsAtCompany[MaritalStatus == "Single"] and YearsAtCompany[MaritalStatus == "Married"]
+t = -2.5824, df = 1040.8, p-value = 0.009946
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.6421284 -0.2240914
+sample estimates:
+mean of x mean of y 
+ 6.374468  7.307578 
+The P value < .05, so we reject the null hypothesis, meaning the average years at the company for a single person is not equal to the average years at the company of a married person.
+
+3. If the JobSatisfaction of Attrition=Yes is less than Attrition=No.
+In [12]:
+with(data, t.test(JobSatisfaction[Attrition == 'Yes'], JobSatisfaction[Attrition == 'No']))
+	Welch Two Sample t-test
+
+data:  JobSatisfaction[Attrition == "Yes"] and JobSatisfaction[Attrition == "No"]
+t = -3.9261, df = 328.59, p-value = 0.0001052
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.4656797 -0.1547890
+sample estimates:
+mean of x mean of y 
+ 2.468354  2.778589 
+The P value is < .05, so we reject the null hypothesis, which means the job satisfaction is not the same whether there is or is not attrition.
+
+4. If the MonthlyIncome of Manager is almost equal to Research Director in senior positions whose ages are greater than 40.
+In [13]:
+with(data, t.test(MonthlyIncome[JobRole == 'Manager'], MonthlyIncome[JobRole == 'Research Director' & Age > 40]))
+	Welch Two Sample t-test
+
+data:  MonthlyIncome[JobRole == "Manager"] and MonthlyIncome[JobRole == "Research Director" & Age > 40]
+t = -0.10242, df = 107.37, p-value = 0.9186
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -806.9719  727.6834
+sample estimates:
+mean of x mean of y 
+ 17181.68  17221.32 
+The P value > .05, so the null hypothesis is accepted; the monthly income of managers is almost equal to the monthly income of research directors over the age of 40.
+
+In [ ]:
